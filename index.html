@@ -1,0 +1,232 @@
+<!DOCTYPE html><!--*-js-indent-level:2;css-indent-offset:2-*-->
+<!-- Copyright 2025 by zrajm. Licenses: CC BY-SA for text, GPLv2 for code. -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Firefox Hoops</title>
+<link rel=icon href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 79 82"><path fill="%23fd5" stroke="black" stroke-linejoin="bevel" stroke-width="3" d="M75 28c-2-4-5-8-8-10a40 40 0 0 1 4 12C67 19 59 15 53 5a46 46 0 0 1-1-2 7 7 0 0 1 0-1h-1c-9 5-12 15-13 21a19 19 0 0 0-10 4 11 11 0 0 0-1-1 18 18 0 0 1 0-9 28 28 0 0 0-9 7c-2-2-2-8-2-10a7 7 0 0 0-1 1 28 28 0 0 0-4 3 33 33 0 0 0-3 4 32 32 0 0 0-5 12l-1 2v1a36 36 0 0 0 0 5 38 38 0 0 0 75 6v-1a39 39 0 0 0-2-19ZM31 58zm40-28z"/><path fill="%2377f" stroke="black" stroke-linejoin="bevel" stroke-width="3" d="m40 35-5 4c-11 0-13 6-13 6a16 16 0 0 0 10 13l1 1a17 17 0 0 0 5 1c19 0 23-23 9-30a13 13 0 0 1 9 2 19 19 0 0 0-16-9h-2a19 19 0 0 0-10 4l2 2c3 3 10 5 10 6z"/></svg>' sizes=any>
+<!--*** NOTE: CSS only allows 'id' attr on block tags without border! ***-->
+<style>
+  /* Mini-reset. */
+  html { box-sizing: border-box; }
+  *, :before, :after { box-sizing: inherit; padding: 0; margin: 0; text-indent: initial; }
+  /********************/
+  /* For regular Latin script. */
+  @font-face {
+    font-family: "Noto Sans";
+    src: url("font/noto_sans-regular.woff2");
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Noto Sans";
+    src: url("font/noto_sans-italic.woff2");
+    font-style: italic;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Noto Sans";
+    src: url("font/noto_sans-bold.woff2");
+    font-weight: bold;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Noto Sans";
+    src: url("font/noto_sans-bold_italic.woff2");
+    font-style: italic;
+    font-weight: bold;
+    font-display: swap;
+  }
+  /* For Canadian syllabics. */
+  @font-face {
+    font-family: "Noto Sans Canadian Aboriginal";
+    src: url("font/noto_sans_canadian_aboriginal-regular.woff2");
+    font-display: swap;
+  }
+  /* For symbols. */
+  @font-face {
+    font-family: "Times New Roman";
+    /* Font must center overdot above dotted circle,
+       and have overdot resemble syllabics font overdot. */
+    src: url("font/times.woff2");
+    font-display: swap;
+  }
+  html {
+    /* https://www.typotheque.com/articles/opentype_features_in_css */
+    font-feature-settings: 'onum' on; /* numbers with upper & lower case */
+    max-width: 100%;
+    font: 20px/1.5 "Noto Sans", "Noto Sans Canadian Aboriginal", "Times New Roman", sans-serif;
+  }
+  body {
+    margin: 1rem auto;
+    margin: 0 auto;
+    max-width: 35rem;
+    width: calc(100vw - 4rem);
+    line-height: 1.75;
+  }
+  :root {
+    border: 1px solid #000;
+    border-top: 2px solid #bbb;
+  }
+  figure, figure img { max-width: 100%; }
+  figure img { max-height: 70vh; }
+  a[href^="#fn"],
+  sup { top: -1.15ex; } /* push up one x-height of surrounding font size */
+  sub { top:  1ex;    } /* push down one x-height footnote font size */
+  a[href^="#fn"]:after, a[href^="#fn"]:before,
+  sub:after, sub:before, sup:after, sup:before {
+    /* Using hairspace lets any <a> underline (in <a><sup>…</sup></a>)
+       stick out a bit on either side, making sure its visible even when
+       link text has a descender (as with descending old-style numbers). */
+    content: '\feff\200a\feff'; /* hair space, no break before/after */
+  }
+  sub, sup, a[href^="#fn"] {
+    font-size: .8em;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  /********************/
+  .gray {
+    color: #bbb;
+  }
+  p {
+    margin-top: 1rem;
+  }
+  p + p, p.indented {
+    margin-top: 0;
+    text-indent: 1.25rem;
+  }
+  p:empty + p {
+    margin-top: 1rem;
+    text-indent: 0;
+  }
+  ul {
+    margin: 1rem 0;
+    padding: 0 1rem;
+  }
+  h1, h2, h3 {
+    margin-top: 1em;
+  }
+  small { font-size: .9em; }
+  a {
+    text-decoration: none;
+    border-radius: .125rem;
+    padding: 0  .25rem  .125rem;
+    margin:  0 -.25rem -.125rem;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  a.img { display: inline-block; }
+  a.img, [id] { position: relative; }
+  a.img img { display: block; }
+  a.img:hover:before, :target:before {
+    content: ' ';
+    position: absolute;
+    left: -.25rem; right: -.25rem;
+    border-radius: .125rem;
+  }
+  a.img:hover:before {
+    top: -.35rem; bottom: -.25rem;
+  }
+  a.img:hover:before, a:not(.img):hover {
+    box-shadow: 0 0 .75rem #88f7 inset, 0 0 1.5rem #88f7 inset;
+    background: #88f1;
+  }
+  :target:before {
+    top: 0rem; bottom: -.125rem;
+    box-shadow: 0 0 .75rem #fb4b inset, 0 0 1.5rem #fb4b inset;
+    background: #fb44;
+    z-index: -1;
+  }
+  a:hover {
+    text-decoration: underline 2px;
+  }
+  /* Glossary table. */
+  .glossary {
+    border-collapse: collapse;
+    margin: 2rem 1.25rem;
+  }
+  .glossary td {
+    border: 2px solid #bbb;
+    padding: 0 .5rem;
+  }
+  code, tt, pre {
+    border-radius: .25em;
+    padding: .125em .25em .1875em;
+    outline: 1px solid #0003;
+    background: #aaa5;
+    bottom: .125em;
+  }
+  pre { margin: 1.5em; padding: .5em 1em; }
+</style>
+<style>
+  /* Mobile-specific CSS. */
+  @media screen and (max-width: 767px) { body { margin: 0 0 0 .5rem } }
+</style>
+
+<h1 id="top">Firefox Hoops</h1>
+
+<p>I'm no fan of any of the major browsers, but I've settled on Firefox (for
+good?), because it's the only one that allows for plugins (addons? extensions?
+whatever!) in the Android version, which is the only way of getting decent
+adblocking on my phone.
+
+<h2 id="plugins">Anti-Capitalist Plugins</h2>
+
+<p>The first two installed plugins on any device where I install a browser is:
+
+<ul>
+  <li><a href="https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/">uBlock
+      Origin</a> – Removes ads, popups and other annoyances.
+  <li><a href="https://addons.mozilla.org/en-US/firefox/addon/sponsorblock/">SponsorBlock</a>
+    – Skip sponsor bits in Youtube videos.
+</ul>
+
+<p>This setup is pretty neat, since it'll allow you to watch Youtube without
+ads, and it also skips most sponsored segments inside videos. Occasionally,
+when I get an unfiltered view of the internet on someone else's computer
+(someone who isn't running the above plugins) I'm quite <i>horrified</i>.
+
+
+<h2 id="resources">Resource Hog</h2>
+
+<p>All browsers eat CPU cycles (and memory) <i>with a spoon</i>. Firefox is no
+exception. A long running browser can bring a machine to its knees by simply
+taking grabbing more and more memory until there's nothing left. And trying to
+limit how much memory Firefox is allowed to expend using <tt>ulimit</tt>
+results in the browser crashing when it hits the memory limit.
+
+<p>I have also noticed that addons can sorta chew away at the memory over time.
+But rather than restarting them or Firefox, they can be made to release some of
+their memory using the below <tt>about:memory</tt> trick.
+
+<ul>
+  <li><tt>Shift-Esc</tt> opens the “Process Manager” – Here you can see which
+    tabs are currently eating up your CPU and memory. Tabs can also be unloaded
+    from here.
+  <li><tt><a target="_blank" href="about:memory">about:memory</a></tt> –
+    Firefox won't open links to about-pages, so either type it into the URL bar
+    yourself, or right-click on the link, select “Open Link in New Tab”, and
+    then press <tt>Ctrl-L</tt> (to focus the URL field in the browser) and
+    press <tt>Enter</tt> to reload it. – Here the “Minimize memory usage” can
+    be used to make Firefox behave for a while.
+</ul>
+
+<footer style="border-top:2px solid #bbb;text-align:center;margin:1.25rem;padding-top:.75rem">
+  Copyright 2025 <a href="http://zrajm.org">zrajm</a>, Uppsala, Sweden.
+</footer>
+<script>
+  // Add links to internal 'id' attributes.
+  document.querySelectorAll('[id]').forEach(e => {
+    e.insertAdjacentHTML(
+      'afterbegin', `<a class="id" href="#${e.id}" title="#${e.id}">#</a>`)
+  })
+</script><style>
+  .id {
+    position: absolute;
+    right: calc(100% + .5rem);
+    font-weight: bold;
+    opacity: .3;
+    user-select: none;
+  }
+  .id:hover { opacity: 1 }
+</style>
