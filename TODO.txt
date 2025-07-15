@@ -1,0 +1,6 @@
+-*- org -*-
+
+* TODO Add instructions on `user.js` and `chrome/*`
+* TODO Add instructions for `prefs.js` and how to monitor for changes
+* FINISHED
+* [eof]

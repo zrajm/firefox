@@ -1,8 +1,9 @@
 <!DOCTYPE html><meta charset=utf-8><!--*- markdown -*-->
+<link rel="search" type="application/opensearchdescription+xml" title="Google + UDM14" href="google.xml">
 <link rel=stylesheet href=www/nojs.css><textarea disabled>
 
 Created: 2025-01-27T13:32:47+01:00
-Updated: 2025-07-15T21:06:26+02:00
+Updated: 2025-07-15T22:59:33+02:00
 License: CC BY-NC-SA (text), GPLv2 (code).
 Favicon: /www/favicon.svg
 Author: zrajm
@@ -10,14 +11,49 @@ Author: zrajm
 
 # Firefox Hoops
 
+> Some notes on why I've chosen to use Firefox over the alternatives, and a few
+> comments on how I make it behave a more reasonably than it does by default.
+
 <toc heading=Contents class=toc>
 
 -------------------------------------------------------------------------------
 
-I'm no fan of any of the major browsers, but I've settled on Firefox (for
-good?), because it's the only one that allows for plugins (addons? extensions?
-whatever!) in the Android version, which is the only way of getting decent
-adblocking on my phone.
+# [#why] Why Firefox?
+
+Neither of the major browsers are particularly appealing to me, but there's one
+killer feature that is only available in Firefox---*Extensions on Android!*
+
+As this *one thing* allows for adblocking and sponsorblocking *on my phone,*
+making Youtube, Google and the rest of the internet kinda bearable even when
+I'm without my laptop.
+
+<figure style="border:0;padding:0">
+  <img style=border:0;padding:0;border-radius:0 src=firefox.png>
+  <figcaption>A screenshot of my Firefox setup (in 2025).</figcaption>
+</figure>
+
+On my computers then?---Well, it's nice that Firefox can share data between
+phone and my other instances (tab state, mostly), but mostly I don't like the
+default appearance of our browsers nowadays, and Firefox is *way more*
+customizable on that front (see above screenshot).
+
+
+## Search Engine
+
+I use (still) use Google for a search engine, however, adding `&udm=14` at the
+end of the search URL greatly improves the search results, by only showing
+classic web search result (skipping all AI generated, and 'People also searched
+for' etc. irrelevancies).
+
+To add the magical `&udm=14` option to Firefox's default search, you must first
+add this as a search engine to Firefox, then set it as the default engine. The
+easiest way to add it is to, right now (while visiting this page), right-click
+in the address bar, then the context menu that appears, select 'Add "Google +
+UDM14"' (or go to [Mycroft Project] page, find "Google + UDM14", and do the
+same there).
+
+To set it as the default engine to use, go to 'Settings › Search' and under
+'Default Search Engine' (at the top of the page) select 'Google + UDM14'.
 
 
 ## [#plugins] Anti-Capitalist Plugins
@@ -45,18 +81,18 @@ I have also noticed that addons can sorta chew away at the memory over time.
 But rather than restarting them or Firefox, they can be made to release some of
 their memory using the below `about:memory` trick.
 
-* `Shift-Esc` opens the "Process Manager"---Here you can see which tabs are
-  currently eating up your CPU and memory. Tabs can also be unloaded from here.
-* `about:memory`---Firefox won't open links to about-pages, so either type it
-  into the URL bar yourself, or right-click on the link, select "Open Link in
-  New Tab", and then press `Ctrl-L` (to focus the URL field in the browser) and
-  press `Enter` to reload it.---Here the "Minimize memory usage" can be used to
-  make Firefox behave for a while.
+* Shift+Esc---Pressing this keyboard shortcut opens Firefox's "Process Manager"
+  in a new tab. Here you can see which tabs are currently chewing up your CPU
+  and memory. Tabs can also be unloaded from here.
+* `about:memory`---Type this Firefox-internal address into the address bar to
+  reveal some memory-related options. Most useful here is the "Minimize memory
+  usage" button (under "Free memory").
 
 -------------------------------------------------------------------------------
 
-[uBlock Origin]: https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/
+[Mycroft Project]: https://mycroftproject.com/google-search-plugins.html
 [SponsorBlock]: https://addons.mozilla.org/en-US/firefox/addon/sponsorblock/
+[uBlock Origin]: https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/
 
 </textarea><script type=module src=www/main.js></script>
 <!--[eof]-->
